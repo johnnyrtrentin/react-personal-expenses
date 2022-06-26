@@ -1,10 +1,30 @@
-import Button from '@material-ui/core/Button';
+import { useState } from 'react';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import Home from './routes/Home';
+import Expenses from './routes/Expenses';
+
+import { IExpenses } from './interfaces';
+import { RoutesEnum } from './enums';
 
 function App() {
+  const [expenses, setExpenses] = useState<IExpenses[]>([]);
+
   return (
-    <Button variant="contained" color="primary">
-      Hello World
-    </Button>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path={RoutesEnum.HOME}
+          element={<Home onSelectDate={setExpenses} />}
+        >
+          <Route
+            path={`${RoutesEnum.EXPENSES}/:date`}
+            element={<Expenses expenses={expenses} />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
